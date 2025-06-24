@@ -1,0 +1,31 @@
+doctype html
+html
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title= title
+        link(rel="stylesheet" href="/css/style.css")
+    body
+        div(class="form-wrapper")
+            h1 Pet Friends Table
+            
+            a(href="/update-cobj") Add to this table
+
+            if data && data.length
+                div(class="cards")
+                    each item in data
+                        div(class="card")
+                            div(class="card__email")
+                                strong Name: 
+                                span= item.properties.name
+                            div(class="card__email")
+                                strong Breed: 
+                                span= item.properties.breed
+                            div(class="card__email")
+                                strong Age: 
+                                span= item.properties.age
+            else
+                div(class="form-wrapper")
+                    p No pet friends found.
+        if error
+            div(class="error-message")= error
