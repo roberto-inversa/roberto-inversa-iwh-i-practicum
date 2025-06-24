@@ -1,6 +1,8 @@
 const express = require('express');
 const axios = require('axios');
 const app = express();
+
+const { HS_API_BASE_URL, HS_OBJECT_PETS } = require("./utils/constants");
 require("dotenv").config();
 
 app.set('view engine', 'pug');
@@ -10,9 +12,6 @@ app.use(express.json());
 
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
 const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS_TOKEN;
-
-const HS_API_BASE_URL = "https://api.hubspot.com";
-const HS_OBJECT_PETS = "2-144175579";
 
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
 
