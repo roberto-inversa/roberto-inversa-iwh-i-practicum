@@ -48,52 +48,32 @@ app.get("/update-cobj", (req, res) => {
 
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
-// * Code for Route 3 goes here
-
-/** 
-* * This is sample code to give you a reference for how you should structure your calls. 
-
-* * App.get sample
-app.get('/contacts', async (req, res) => {
-    const contacts = 'https://api.hubspot.com/crm/v3/objects/contacts';
+app.post("/update-cobj", async (req, res) => {
+    const createUrl = `${HS_API_BASE_URL}/crm/v3/objects/${HS_OBJECT_PETS}`;
     const headers = {
         Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
-    }
-    try {
-        const resp = await axios.get(contacts, { headers });
-        const data = resp.data.results;
-        res.render('contacts', { title: 'Contacts | HubSpot APIs', data });      
-    } catch (error) {
-        console.error(error);
-    }
-});
-
-* * App.post sample
-app.post('/update', async (req, res) => {
-    const update = {
-        properties: {
-            "favorite_book": req.body.newVal
-        }
-    }
-
-    const email = req.query.email;
-    const updateContact = `https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`;
-    const headers = {
-        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
     };
 
-    try { 
-        await axios.patch(updateContact, update, { headers } );
-        res.redirect('back');
-    } catch(err) {
-        console.error(err);
+    const characterData = {
+        properties: {
+            name: req.body.name,
+            breed: req.body.breed,
+            age: req.body.age,
+        },
+    };
+
+    try {
+        await axios.post(createUrl, characterData, { headers });
+        res.redirect("/");
+    } catch (error) {
+        console.error("Create Error:", error.response?.data || error.message);
+        res.render("updates", {
+            title: "Create Pet Friend",
+            error: "Failed to create pet friend",
+        });
     }
-
 });
-*/
-
 
 // * Localhost
 app.listen(3000, () => console.log('Listening on http://localhost:3000'));
