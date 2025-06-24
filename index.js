@@ -10,7 +10,33 @@ app.use(express.json());
 // * Please DO NOT INCLUDE the private app access token in your repo. Don't do this practicum in your normal account.
 const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS_TOKEN;
 
+const HS_API_BASE_URL = "https://api.hubspot.com";
+const HS_OBJECT_PETS = "2-144175579";
+
 // TODO: ROUTE 1 - Create a new app.get route for the homepage to call your custom object data. Pass this data along to the front-end and create a new pug template in the views folder.
+
+app.get("/", async (req, res) => {
+    const petFriends = `${HS_API_BASE_URL}/crm/v3/objects/${HS_OBJECT_PETS}?properties=name,breed,age`;
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        "Content-Type": "application/json",
+    };
+    try {
+        const resp = await axios.get(petFriends, { headers });
+        const data = resp.data.results;
+        res.render("homepage", {
+            title: "Our Pet Friends Homepage | Integrating With HubSpot I Practicum",
+            data,
+        });
+    } catch (error) {
+        console.error("Error fetching pet friends:", error);
+        res.render("homepage", {
+            title: "Our Pet Friends Homepage | Integrating With HubSpot I Practicum",
+            data: [],
+            error: "Failed to load pet friends",
+        });
+    }
+});
 
 // * Code for Route 1 goes here
 
