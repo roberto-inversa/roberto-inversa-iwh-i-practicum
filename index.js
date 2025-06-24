@@ -55,7 +55,7 @@ app.post("/update-cobj", async (req, res) => {
         "Content-Type": "application/json",
     };
 
-    const characterData = {
+    const myPetData = {
         properties: {
             name: req.body.name,
             breed: req.body.breed,
@@ -64,7 +64,7 @@ app.post("/update-cobj", async (req, res) => {
     };
 
     try {
-        await axios.post(createUrl, characterData, { headers });
+        await axios.post(createUrl, myPetData, { headers });
         res.redirect("/");
     } catch (error) {
         console.error("Create Error:", error.response?.data || error.message);
